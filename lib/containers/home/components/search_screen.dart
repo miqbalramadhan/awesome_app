@@ -1,11 +1,11 @@
 import 'package:awesome_app/components/colored_safearea.dart';
 import 'package:awesome_app/components/loading_indicator.dart';
 import 'package:awesome_app/components/not_found.dart';
-import 'package:awesome_app/components/regular_text_field.dart';
 import 'package:awesome_app/components/shimmer_loading.dart';
 import 'package:awesome_app/containers/home/components/grid_photos.dart';
 import 'package:awesome_app/cubit/photos/search_photos_cubit.dart';
 import 'package:awesome_app/models/photos_model.dart';
+import 'package:awesome_app/values/colors.dart';
 import 'package:awesome_app/values/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +34,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    _searchNode.requestFocus();
+    if (_searchController.text.isEmpty) {
+      _searchNode.requestFocus();
+    }
     _scrolListener();
   }
 
@@ -73,23 +75,40 @@ class _SearchScreenState extends State<SearchScreen> {
           Expanded(
             child: Container(
               width: double.infinity,
-              child: RegularTextField(
-                controller: _searchController,
+              child: TextFormField(
+                autofocus: false,
                 focusNode: _searchNode,
-                labelText: "Search",
-                hintText: "Search SearchPhotos",
-                onSubmitted: () {
+                controller: _searchController,
+                cursorColor: regular,
+                maxLines: 1,
+                onFieldSubmitted: (value) {
                   BlocProvider.of<SearchPhotosCubit>(context)
-                      .getSearchPhotos(_searchController.text);
+                      .getSearchPhotos(value);
                 },
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.search,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                  labelText: "Search",
+                  labelStyle: TextStyle(
+                    color: _searchNode.hasFocus ? regular : Colors.grey,
                   ),
-                  onPressed: () {
-                    BlocProvider.of<SearchPhotosCubit>(context)
-                        .getSearchPhotos(_searchController.text);
-                  },
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: regular, width: 1.0),
+                  ),
+                  hintText: "Search Photos",
+                  hintStyle: TextStyle(fontSize: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.search,
+                    ),
+                    onPressed: () {
+                      BlocProvider.of<SearchPhotosCubit>(context)
+                          .getSearchPhotos(_searchController.text);
+                    },
+                  ),
                 ),
               ),
             ),
@@ -134,11 +153,17 @@ class _SearchScreenState extends State<SearchScreen> {
           return shimmerGridPhotos();
         } else if (state is SearchPhotosError ||
             state is SearchPhotosLoaded && _listData.length < 1) {
-          return NotFound(
-            press: () {
-              BlocProvider.of<SearchPhotosCubit>(context)
-                  .getSearchPhotos(_searchController.text);
-            },
+          return Container(
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * .2),
+            child: NotFound(
+              width: 150,
+              aspecRatio: 1.2,
+              press: () {
+                BlocProvider.of<SearchPhotosCubit>(context)
+                    .getSearchPhotos(_searchController.text);
+              },
+            ),
           );
         } else {
           return GridPhotos(data: _listData);

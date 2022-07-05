@@ -218,10 +218,16 @@ class _HomeScreenState extends State<HomeScreen> {
           return shimmerGridPhotos();
         } else if (state is PhotosError ||
             state is PhotosLoaded && _listData.length < 1) {
-          return NotFound(
-            press: () {
-              BlocProvider.of<PhotosCubit>(context).getPhotos();
-            },
+          return Container(
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * .1),
+            child: NotFound(
+              width: 150,
+              aspecRatio: 1.1,
+              press: () {
+                BlocProvider.of<PhotosCubit>(context).getPhotos();
+              },
+            ),
           );
         } else {
           return GridPhotos(data: _listData);

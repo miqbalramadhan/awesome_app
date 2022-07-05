@@ -1,3 +1,4 @@
+import 'package:awesome_app/containers/home/components/detail_screen.dart';
 import 'package:awesome_app/models/photos_model.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -25,16 +26,28 @@ class _GridPhotosState extends State<GridPhotos> {
         itemCount: widget.data.length,
         itemBuilder: (context, index) {
           Photos _photo = widget.data[index];
-          return Container(
-            decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.all(Radius.circular(15))),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(15)),
-              child: FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: _photo.src!.medium.toString(),
-                fit: BoxFit.cover,
+          return InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute<Null>(
+                  builder: (BuildContext context) {
+                    return DetailScreen(data: _photo);
+                  },
+                  fullscreenDialog: true,
+                ),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.all(Radius.circular(15))),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                child: FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: _photo.src!.medium.toString(),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           );

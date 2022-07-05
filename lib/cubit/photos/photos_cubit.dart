@@ -6,7 +6,7 @@ import 'package:equatable/equatable.dart';
 part 'photos_state.dart';
 
 class PhotosCubit extends Cubit<PhotosState> {
-  String _query = "random";
+  String _query = "nature";
   List<Photos> _listData = [];
   int _page = 1;
   int _load = 15;
