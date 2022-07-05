@@ -7,7 +7,7 @@ aplikasi untuk mencari gambar gratis menggunakan api pexel, dikembangkan dengan 
 * Detail gambar
 
 # Preview Tampilan
-![](https://github.com/miqbalramadhan/awesome_app/blob/main/tampilan.gif)
+![](https://github.com/miqbalramadhan/awesome_app/blob/main/preview.gif)
 
 
 # API PEXEL
