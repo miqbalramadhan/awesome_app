@@ -1,5 +1,5 @@
 # Awesome app
-aplikasi untuk mencari gambar gratis menggunakan api pexel, dikembangkan dengan bahasa Flutter(dart), untuk state management menggunakan Cubit/Bloc
+aplikasi untuk mencari gambar gratis menggunakan api pexel, dikembangkan dengan teknologi Flutter(dart), untuk state management menggunakan Cubit/Bloc
 
 # Preview Tampilan
 ![](https://github.com/miqbalramadhan/awesome_app/blob/main/tampilan.gif)
